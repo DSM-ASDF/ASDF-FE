@@ -5,7 +5,7 @@ const fontGenerator = (weight: number, size: number, lineHeight: number) => ({
   lineHeight: `${lineHeight}%`,
 });
 
-export const font = {
+export const Font = {
   semi: {
     54: fontGenerator(600, 54, 180),
     32: fontGenerator(600, 32, 180),
