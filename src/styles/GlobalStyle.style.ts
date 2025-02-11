@@ -63,8 +63,7 @@ td {
 }
 * {
   box-sizing: border-box;
-  font-family: ${font.family};
-  font-weight: medium;
+  ${font.medium[16]};
 }
 textarea {
   resize: none;
