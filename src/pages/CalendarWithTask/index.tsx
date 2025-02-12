@@ -34,6 +34,7 @@ export const CalendarWithTask = () => {
 
 const Content = styled.div`
   display: flex;
+  gap: 80px;
 `
 
 const Schedule = styled.div`
