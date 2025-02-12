@@ -25,16 +25,17 @@ export const Calendar = () => {
           ))}
         </DayWrap>
         <DayWrap>
-          {daysInMonth.map((date) => (
-            <Day
-              onClick={() => selectedDate.selectDate(date.date)}
-              $isSelectedDate={selectedDate.date === date.date}
-              className={date.month}
-              key={date.date}
-            >
-              <span>{date.day}</span>
-            </Day>
-          ))}
+          {daysInMonth
+            .filter((date) => date.month === currentDate.month)
+            .map((date) => (
+              <Day
+                onClick={() => selectedDate.selectDate(date.date)}
+                $isSelectedDate={selectedDate.date === date.date}
+                key={date.date}
+              >
+                <span>{date.day}</span>
+              </Day>
+            ))}
         </DayWrap>
       </CalendarBody>
     </CalendarContainer>
@@ -73,6 +74,7 @@ const DayWrap = styled.div`
   display: grid;
   grid-template-columns: repeat(7, minmax(56px, 1fr));
   grid-row-gap: 24px;
+  grid-column-gap: 28px;
 `
 
 const DayOfWeek = styled.div`
