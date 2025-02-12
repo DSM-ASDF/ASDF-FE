@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-import { font } from "./font";
+import { Font } from "./font";
+import { color } from "./color"
 
 export const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -32,6 +33,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
+  background-color: ${color.gray700};
 }
 menu, ol, ul {
   list-style: none;
@@ -63,7 +65,7 @@ td {
 }
 * {
   box-sizing: border-box;
-  ${font.medium[16]};
+  ${Font.medium[16]};
 }
 textarea {
   resize: none;
