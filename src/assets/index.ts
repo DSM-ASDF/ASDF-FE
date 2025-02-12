@@ -1,5 +1,5 @@
 export * from "./Arrow"
-export * from "./ArrowCircle"
+export * from "./Upload"
 export * from "./ArrowLine"
 export * from "./Bell"
 export * from "./Calendar"
