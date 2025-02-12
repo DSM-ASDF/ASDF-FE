@@ -1,4 +1,4 @@
-export * from "./arrow"
+export * from "./Arrow"
 export * from "./ArrowCircle"
 export * from "./ArrowLine"
 export * from "./Bell"
