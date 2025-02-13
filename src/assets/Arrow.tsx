@@ -1,10 +1,10 @@
 import { IconProps } from "./interface";
 
 const rotationAngles: { [key: string]: string } = {
-  right: "180deg",
-  top: "90deg",
-  bottom: "-90deg",
-  left: "0deg",
+  right: "90",
+  top: "0",
+  bottom: "180",
+  left: "-90",
 };
 
 interface ArrowProps extends IconProps {
@@ -21,7 +21,7 @@ export const Arrow = ({ size = 24, color = "#000", onClick, rotate = "top" }: Ar
       height={size}
       fill="none"
       viewBox="0 0 24 24"
-      style={{ transform: `rotate(${rotation})` }}
+      style={{ transform: `rotate(${rotation}deg)` }}
       onClick={onClick}
     >
       <path
