@@ -14,7 +14,7 @@ export const Container = styled.div`
   background-position: center;
 `;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ isError: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -22,7 +22,7 @@ export const Wrapper = styled.div`
   width: 581px;
   height: 564px;
   padding: 48px 32px;
-  border: solid 1px ${color.success};
+  border: solid 1px ${({ isError }) => (isError ? color.error : color.success)};
   border-radius: 20px;
   background-color: ${color.gray800};
 `;
@@ -48,6 +48,13 @@ export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+export const ErrorText = styled.p`
+  align-self: flex-start;
+  margin-top: -30px;
+  ${Font.medium[14]}
+  color:${color.error}
 `;
 
 export const TextWrapper = styled.div`
