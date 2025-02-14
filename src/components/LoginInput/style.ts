@@ -14,7 +14,7 @@ export const InputTitle = styled.p`
 `;
 
 export const Input = styled.input`
-  width: 100%;
+  width: 516px;
   padding: 12px;
   font-size: 16px;
   border: 1px solid ${color.gray500};
