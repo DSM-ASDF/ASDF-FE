@@ -4,9 +4,10 @@ import * as S from "./style";
 interface ButtonProps {
   type: "green" | "gray";
   text: string;
+  width: string;
 }
 
-export const Button = ({ type, text }: ButtonProps) => {
+export const Button = ({ type, text, width }: ButtonProps) => {
   const colors: Record<
     "green" | "gray",
     { backcolor: keyof typeof color; textcolor: keyof typeof color }
@@ -19,6 +20,7 @@ export const Button = ({ type, text }: ButtonProps) => {
     <S.Container
       backcolor={colors[type].backcolor}
       textcolor={colors[type].textcolor}
+      width={width}
     >
       {text}
     </S.Container>

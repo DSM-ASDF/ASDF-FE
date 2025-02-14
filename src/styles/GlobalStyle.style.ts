@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { font } from "./Font";
+import { Font } from "./Font";
 
 export const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -63,7 +63,7 @@ td {
 }
 * {
   box-sizing: border-box;
-  ${font.medium[16]};
+  ${Font.medium[16]};
 }
 textarea {
   resize: none;
