@@ -1,13 +1,16 @@
 import { QueryClientProvider, QueryClient } from "react-query";
 import Router from "./router";
 import "./styles/Font";
+import { CalendarProvider } from "./pages/CalendarWithTask/useCalendarContext";
 
 function App() {
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Router />
+      <CalendarProvider>
+        <Router />
+      </CalendarProvider>
     </QueryClientProvider>
   );
 }
