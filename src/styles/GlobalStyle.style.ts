@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { Font } from "./font";
-import { color } from "./color"
+import { color } from "./color";
 
 export const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
