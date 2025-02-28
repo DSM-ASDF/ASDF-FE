@@ -19,14 +19,40 @@ export const TaskSideBar = () => {
     description: todoDescription,
     comment
   } = useTodoStore((state) => state.todo);
+  const { setTodo, createTodo } = useTodoStore()
 
   const [title, setTitle] = useState(todoTitle || "제목을 입력해주세요.");
   const [description, setDescription] = useState(todoDescription || "상세 내용을 입력해주세요.");
 
+  const isEditMode = todoId !== 0;
+
   useEffect(() => {
-    setTitle(todoTitle || "제목을 입력해주세요.");
-    setDescription(todoDescription || "상세 내용을 입력해주세요.");
-  }, [todoTitle, todoDescription]);
+    if (isEditMode) {
+      setTitle(todoTitle || "제목을 입력해주세요.");
+      setDescription(todoDescription || "상세 내용을 입력해주세요.");
+    }
+  }, [todoTitle, todoDescription, isEditMode]);
+
+  const handleSave = () => {
+    if (isEditMode) {
+      setTodo({
+        title,
+        description
+      });
+    } else {
+      createTodo({
+        todoId: Date.now(),
+        title,
+        taskOwner: { profile: "", userId: "" },
+        label: "",
+        workArea: "",
+        priority: "",
+        description,
+        progress: false,
+        comment: []
+      });
+    }
+  };
 
   return (
     <Container>
@@ -40,9 +66,9 @@ export const TaskSideBar = () => {
           <Title value={title} onChange={(e) => setTitle(e.target.value)} />
           <ListWrap>
             <TaskManagerList title="담당자" manager={taskOwner} />
-            <TaskList title="레이블" select={label} />
-            <TaskList title="작업영역" select={workArea} />
-            <TaskList title="우선순위" select={priority} />
+            <TaskList title="레이블" select={label} type="label" />
+            <TaskList title="작업영역" select={workArea} type="workArea" />
+            <TaskList title="우선순위" select={priority} type="priority" />
           </ListWrap>
         </TaskDetailWrap>
         <TaskDescription value={description} onChange={(e) => setDescription(e.target.value)} />
@@ -53,9 +79,14 @@ export const TaskSideBar = () => {
           {comment.map((value) => (
             <Comment key={value.commentId} {...value} />
           ))}
-          <ChatInput size={94} />
         </CommentWrap>
-        <ChatInput size={94} />
+        {
+          isEditMode ? (
+            <ChatInput size={94} />
+          ) : (
+            <Button onClick={handleSave}>할 일 업로드</Button>
+          )
+        }
       </CommentWrap>
     </Container>
   )
@@ -78,14 +109,14 @@ const TaskWrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 12px 24px;
-  gap: 32px;
+  gap: 36px;
 `
 
 const Title = styled.input`
   border: none;
   outline: none;
   background-color: ${color.gray800};
-  ${Font.medium[32]}
+  ${Font.medium[36]}
   color: ${color.white};
 
   &::placeholder {
@@ -96,7 +127,7 @@ const Title = styled.input`
 const TaskDetailWrap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 `
 
 const ListWrap = styled.div`
@@ -116,4 +147,18 @@ const CommentWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`
+
+const Button = styled.button`
+  position: absolute;
+  bottom: 32px;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid ${color.green300};
+  background-color: ${color.gray700};
+  color: ${color.gray300};
 `

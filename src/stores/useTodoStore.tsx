@@ -4,6 +4,7 @@ import { TodoType } from "../utils/dummy/TaskDummy"
 interface TodoState {
   todo: TodoType;
   setTodo: (todo: Partial<TodoType>) => void;
+  createTodo: (todo: TodoType) => void;
 }
 
 export const useTodoStore = create<TodoState>((set) => ({
@@ -22,4 +23,5 @@ export const useTodoStore = create<TodoState>((set) => ({
     set((state) => ({
       todo: { ...state.todo, ...todo },
     })),
+  createTodo: (todo) => set({ todo }),
 }));
