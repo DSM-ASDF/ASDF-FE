@@ -1,10 +1,10 @@
-interface TeamMemberType {
+export interface TeamMemberType {
   userId: number;
   profile: string;
   userName: string;
 }
 
-export const Team: TeamMemberType[] = [
+export const TeamDummy: TeamMemberType[] = [
   {
     userId: 1,
     profile: "https://i.namu.wiki/i/FyIUKdlPFlNwxDuYC16AX1O9MJYS_qb_KPJ5jV6nrsERtWfRmzEpET44hpRGaZS5Oefuu_vpCwdQW1LMYKAWrw.webp",

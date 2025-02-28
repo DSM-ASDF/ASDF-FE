@@ -9,7 +9,16 @@ import { useState, useEffect } from "react";
 import { useTaskStore } from "../../stores/useTaskStore";
 
 export const TaskSideBar = () => {
-  const { tasks, selectedTodoId, setTodo, createTodo } = useTaskStore();
+  const {
+    tasks,
+    selectedTodoId,
+    setTodo,
+    createTodo,
+    selectedLabel,
+    selectedWorkArea,
+    selectedPriority,
+    selectedManager
+  } = useTaskStore();
 
   const selectedTask = tasks.find((task) =>
     task.todo.some((t) => t.todoId === selectedTodoId)
@@ -39,20 +48,25 @@ export const TaskSideBar = () => {
   }, [title, description]);
 
   const handleCreateTodo = () => {
-    createTodo(
-      {
-        todoId: Date.now(),
-        title,
-        taskOwner: { profile: "", userId: "" },
-        label: "",
-        workArea: "",
-        priority: "",
-        description,
-        progress: false,
-        comment: [],
-      },
-      new Date().toISOString().split("T")[0]
-    );
+    if (selectedManager) {
+      createTodo(
+        {
+          todoId: Date.now(),
+          title,
+          taskOwner: {
+            profile: selectedManager.profile,
+            userId: selectedManager.userId
+          },
+          label: selectedLabel,
+          workArea: selectedWorkArea,
+          priority: selectedPriority,
+          description,
+          progress: false,
+          comment: [],
+        },
+        new Date().toISOString().split("T")[0]
+      );
+    }
   };
 
   return (

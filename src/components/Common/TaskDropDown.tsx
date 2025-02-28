@@ -2,38 +2,36 @@ import styled from "styled-components";
 import { Line } from "../../assets";
 import { color } from "../../styles/color";
 import { useState } from "react";
-import { MajorType, WorkAreaType, PriorityType } from "../../utils/Data/Task";
 
 interface PropsType {
   title?: string,
-  option?: readonly (MajorType | WorkAreaType | PriorityType)[],
-  type?: "Assignee" | "Task"
+  option?: readonly string[],
+  onSelect?: (value: string) => void
 }
 
-export const TaskDropDown = ({ title, option = [], type = "Task" }: PropsType) => {
+export const TaskDropDown = ({ title, option = [], onSelect }: PropsType) => {
   const [select, setSelect] = useState(title);
 
   const handleSelect = (value: string) => {
     setSelect(value)
+    if (onSelect) {
+      onSelect(value)
+    }
   }
 
   return (
     <DropDownContainer>
       <DropDownSelect>
-        {type === "Assignee" ? (
-          <></>
-        ) : (
-          <Text>{select}</Text>
-        )}
+        <Text>{select}</Text>
       </DropDownSelect>
       <OptionWrap>
         {option.map((value) => (
           value != "" ? (
             <ListWrap key={value} onClick={() => handleSelect(value)}>
-              {type === "Assignee" ? <ProfileImage /> : <Line size={16} color={color.white} />}
+              <Line size={16} color={color.white} />
               <Text>{value}</Text>
             </ListWrap>
-          ) : <></>
+          ) : null
         )
         )}
       </OptionWrap>

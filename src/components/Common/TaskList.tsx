@@ -4,11 +4,13 @@ import { Font } from "../../styles/font";
 import { color } from "../../styles/color";
 import { TaskDropDown } from "./TaskDropDown";
 import { Major, WorkArea, Priority } from "../../utils/Data/Task"
+import { useTaskStore } from "../../stores/useTaskStore";
+import { TeamDummy, TeamMemberType } from "../../utils/dummy/TeamDummy";
 
 interface PropsType {
   title?: string,
   select?: string,
-  manager?: { profile: string; userId: string },
+  manager?: { profile: string; userId: number, userName: string },
   type?: 'label' | 'workArea' | 'priority'
 }
 
@@ -16,12 +18,17 @@ export const TaskList = ({ title = "제목", select = "", type }: PropsType) => 
   const [selectedItem, setSelectedItem] = useState(select === "" ? `${title} 선택` : select);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
+  const setSelectedLabel = useTaskStore((state) => state.setSelectedLabel);
+  const setSelectedWorkArea = useTaskStore((state) => state.setSelectedWorkArea);
+  const setSelectedPriority = useTaskStore((state) => state.setSelectedPriority);
+
   useEffect(() => {
     setSelectedItem(select === "" ? `${title} 선택` : select);
   }, [select, title]);
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
+
   };
 
   const getOptions = () => {
@@ -37,22 +44,44 @@ export const TaskList = ({ title = "제목", select = "", type }: PropsType) => 
     }
   };
 
+  const handleSelectOption = (value: string) => {
+    setSelectedItem(value);
+    setIsDropdownVisible(false);
+
+    if (type === "label") setSelectedLabel(value);
+    else if (type === "workArea") setSelectedWorkArea(value);
+    else if (type === "priority") setSelectedPriority(value);
+  };
+
   return (
     <Container>
       <TaskListContainer>
         <Title>{title}</Title>
         <Select onClick={toggleDropdown}>{selectedItem}</Select>
       </TaskListContainer>
-      {isDropdownVisible && <TaskDropDown title={`${title} 선택`} option={getOptions()} />}
+      {isDropdownVisible && <TaskDropDown title={`${title} 선택`} option={getOptions()} onSelect={handleSelectOption} />}
     </Container>
   )
 }
 
-export const TaskManagerList = ({ title = "제목", manager = { profile: "", userId: "" } }: PropsType) => {
+export const TaskManagerList = ({ title = "제목", manager = { profile: "", userId: 0, userName: "" } }: PropsType) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const setSelectedManager = useTaskStore((state) => state.setSelectedManager);
+
+  const [selectedManager, setSelectedManagerLocal] = useState<TeamMemberType>(manager);
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
+  };
+
+  const handleSelectManager = (userName: string) => {
+    const selected = TeamDummy.find(member => member.userName === userName);
+    if (selected) {
+      setSelectedManager(selected);
+      setSelectedManagerLocal(selected);
+    }
+    setIsDropdownVisible(false);
   };
 
   return (
@@ -60,11 +89,17 @@ export const TaskManagerList = ({ title = "제목", manager = { profile: "", use
       <TaskListContainer>
         <Title>{title}</Title>
         <AssignerWrap onClick={toggleDropdown}>
-          <Profile src={manager.profile || ""} />
-          <Select>{manager.userId || "담당자 선택"}</Select>
+          <Profile src={selectedManager.profile || ""} />
+          <Select>{selectedManager.userName || "담당자 선택"}</Select>
         </AssignerWrap>
       </TaskListContainer>
-      {isDropdownVisible && <TaskDropDown type="Assignee" />}
+      {isDropdownVisible &&
+        <TaskDropDown
+          title="담당자 선택"
+          option={TeamDummy.map(member => member.userName)}
+          onSelect={handleSelectManager}
+        />
+      }
     </Container>
   )
 }

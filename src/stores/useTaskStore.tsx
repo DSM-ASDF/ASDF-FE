@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { TaskType, TodoType, TaskDummy } from '../utils/dummy/TaskDummy';
+import { TeamMemberType } from '../utils/dummy/TeamDummy';
 
 interface TaskStore {
   tasks: TaskType[];
@@ -9,6 +10,15 @@ interface TaskStore {
   deleteTask: (todoId: number) => void;
   setTodo: (todo: Partial<TodoType>) => void;
   createTodo: (todo: TodoType, date: string) => void;
+
+  selectedLabel: string;
+  selectedWorkArea: string;
+  selectedPriority: string;
+  selectedManager: TeamMemberType | null;
+  setSelectedLabel: (label: string) => void;
+  setSelectedWorkArea: (workArea: string) => void;
+  setSelectedPriority: (priority: string) => void;
+  setSelectedManager: (manager: TeamMemberType) => void;
 }
 
 export const useTaskStore = create<TaskStore>((set) => ({
@@ -56,6 +66,15 @@ export const useTaskStore = create<TaskStore>((set) => ({
         };
       }
     }),
+
+  selectedLabel: "",
+  selectedWorkArea: "",
+  selectedPriority: "",
+  selectedManager: null,
+  setSelectedLabel: (label) => set({ selectedLabel: label }),
+  setSelectedWorkArea: (workArea) => set({ selectedWorkArea: workArea }),
+  setSelectedPriority: (priority) => set({ selectedPriority: priority }),
+  setSelectedManager: (manager) => set({ selectedManager: manager }),
 }));
 
 export const initializeTasks = () => {
