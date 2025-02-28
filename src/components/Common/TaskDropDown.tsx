@@ -77,13 +77,6 @@ const ListWrap = styled.div`
   }
 `
 
-const ProfileImage = styled.image`
-  width: 24px;
-  height: 24px;
-  border-radius: 100%;
-  background-color: ${color.gray500};
-`
-
 const Text = styled.p`
   color: ${color.white};
 `
