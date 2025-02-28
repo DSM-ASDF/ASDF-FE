@@ -14,13 +14,25 @@ interface PropsType {
 }
 
 export const DropDown = ({ title = "항목 선택", open = false, options = [], type }: PropsType) => {
-  const { setSelectedMajor, setSelectedWorkArea, setSelectedPriority } = useDropDownStore();
+  const { selectedMajor, selectedWorkArea, selectedPriority, setSelectedMajor, setSelectedWorkArea, setSelectedPriority } = useDropDownStore();
 
-  const [select, setSelect] = useState<string>(title);
+  //const [select, setSelect] = useState<string>(title);
+ 
+  let selectedValue: string;
+  if (type === "Major") {
+    selectedValue = selectedMajor || title;
+  } else if (type === "WorkArea") {
+    selectedValue = selectedWorkArea || title; 
+  } else if (type === "Priority") {
+    selectedValue = selectedPriority || title;
+  } else {
+    selectedValue = title;
+  }
+
   const [optionOpen, setOptionOpen] = useState<boolean>(open);
 
   const handleSelect = (option: string) => {
-    setSelect(option);
+    //setSelect(option);
     setOptionOpen(false)
 
     if (type === "Major") {
@@ -35,7 +47,7 @@ export const DropDown = ({ title = "항목 선택", open = false, options = [], 
   return (
     <Container>
       <DropDownSelect onClick={() => setOptionOpen(!optionOpen)}>
-        <SelectText>{select}</SelectText>
+        <SelectText>{selectedValue}</SelectText>
         <Arrow color={color.gray200} rotate={optionOpen ? "top" : "bottom"} />
       </DropDownSelect>
       {

@@ -33,7 +33,7 @@ export const Sprint = () => {
   const [todayTasks, setTodayTasks] = useState<TodoType[]>([]);
   const [completedTasks, setCompletedTasks] = useState<TodoType[]>([]);
 
-  const { selectedMajor, selectedWorkArea, selectedPriority } = useDropDownStore();
+  const { selectedMajor, selectedWorkArea, selectedPriority, setFilterReset } = useDropDownStore();
 
   const currentDate = new Date().toISOString().split('T')[0];
 
@@ -73,7 +73,7 @@ export const Sprint = () => {
           <DropDown title="작업 영역 선택" options={WorkArea} type="WorkArea" />
           <DropDown title="우선순위 선택" options={Priority} type="Priority" />
         </DropDownWrap>
-        <Reset size={18} color={color.white} />
+        <Reset size={18} color={color.white} onClick={() => setFilterReset()} />
       </SearchWrap>
 
       <Content>
