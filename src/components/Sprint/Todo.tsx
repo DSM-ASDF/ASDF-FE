@@ -3,28 +3,29 @@ import { Dots } from "../../assets";
 import { Tag } from "./Tag";
 import { color } from "../../styles/color";
 import { Font } from "../../styles/font";
+import { TodoType } from "../../utils/dummy/TaskDummy";
 
-interface PropsType {
-  title?: string,
-  tag?: Array<string>,
-  state?: boolean
+interface TodoProps {
+  task: TodoType;
 }
 
-export const Todo = ({ title, tag, state }: PropsType) => {
+export const Todo = ({ task }: TodoProps) => {
+  const { title, taskOwner, label, workArea, priority, progress } = task;
+
   return (
     <Container>
       <TitleSetting>
-        <Title>{title}aa</Title>
+        <Title>{title}</Title>
         <Dots size={20} color={color.gray300} />
       </TitleSetting>
       <TagWrap>
-        <Tag text="FrontEnd" type="Major" />
-        <Tag text="버그" type="Function" />
-        <Tag text="낮음" type="Importance" />
+        <Tag text={label} type="Major" />
+        <Tag text={workArea} type="Function" />
+        <Tag text={priority} type="Importance" />
       </TagWrap>
       <StateProfile>
-        <StateText>{state ? "완료됨" : "진행중"}</StateText>
-        <Profile></Profile>
+        <StateText>{progress ? "완료됨" : "진행중"}</StateText>
+        <Profile src={taskOwner.profile} alt={taskOwner.userId} />
       </StateProfile>
     </Container>
   )
@@ -32,11 +33,11 @@ export const Todo = ({ title, tag, state }: PropsType) => {
 
 const Container = styled.div`
   width: 340px;
-  display: inline;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 16px;
-  gap: 12px;
+  gap: 8px;
   border: 1px solid ${color.green800};
   border-radius: 8px;
 `
@@ -67,7 +68,7 @@ const StateText = styled.p`
   color: ${color.gray300};
 `
 
-const Profile = styled.image`
+const Profile = styled.img`
   width: 24px;
   height: 24px;
   background-color: ${color.gray500};
