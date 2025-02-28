@@ -8,6 +8,7 @@ import { TaskDummy } from "../../utils/dummy/TaskDummy"
 import { TodoType } from "../../utils/dummy/TaskDummy";
 import { Major, WorkArea, Priority } from "../../utils/Data/Task";
 import { useDropDownStore } from "../../stores/useDropDownStore";
+import { useTaskStore } from "../../stores/useTaskStore";
 
 const TaskSection = ({ title, tasks }: { title: string, tasks: TodoType[] }) => {
   return (
@@ -29,6 +30,15 @@ const TaskSection = ({ title, tasks }: { title: string, tasks: TodoType[] }) => 
 }
 
 export const Sprint = () => {
+  const tasks = useTaskStore((state) => state.tasks);
+  const setTasks = useTaskStore((state) => state.setTasks);
+
+  useEffect(() => {
+    if (tasks.length === 0) {
+      setTasks(TaskDummy);
+    }
+  }, [tasks, setTasks]);
+
   const [allTasks, setAllTasks] = useState<TodoType[]>([]);
   const [todayTasks, setTodayTasks] = useState<TodoType[]>([]);
   const [completedTasks, setCompletedTasks] = useState<TodoType[]>([]);
@@ -38,11 +48,17 @@ export const Sprint = () => {
   const currentDate = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
-    const allTodo = TaskDummy.flatMap(task => task.todo);
-    const todayTodo = TaskDummy.filter(task => task.date === currentDate).flatMap(task => task.todo);
-    const completedTodo = todayTodo.filter(todo => todo.progress);
+    const allTodo = tasks.flatMap(task => task.todo);
+    const todayTodo = tasks
+      .filter(task => task.date === currentDate)
+      .flatMap(task => task.todo)
+      .filter(todo => todo.progress === false);
+    const completedTodo = tasks
+      .filter(task => task.date === currentDate)
+      .flatMap(task => task.todo)
+      .filter(todo => todo.progress === true)
 
-    const filteredAllTasks = allTodo.filter(task => 
+    const filteredAllTasks = allTodo.filter(task =>
       (selectedMajor ? task.label === selectedMajor : true) &&
       (selectedWorkArea ? task.workArea === selectedWorkArea : true) &&
       (selectedPriority ? task.priority === selectedPriority : true)
@@ -63,13 +79,13 @@ export const Sprint = () => {
     setAllTasks(filteredAllTasks);
     setTodayTasks(filteredTodayTasks);
     setCompletedTasks(filteredCompletedTasks);
-  }, [currentDate, selectedMajor, selectedWorkArea, selectedPriority]);
+  }, [currentDate, selectedMajor, selectedWorkArea, selectedPriority, tasks]);
 
   return (
     <Container>
       <SearchWrap>
         <DropDownWrap>
-          <DropDown title="레이블 선택" options={Major} type="Major"/>
+          <DropDown title="레이블 선택" options={Major} type="Major" />
           <DropDown title="작업 영역 선택" options={WorkArea} type="WorkArea" />
           <DropDown title="우선순위 선택" options={Priority} type="Priority" />
         </DropDownWrap>
