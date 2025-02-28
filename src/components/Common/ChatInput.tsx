@@ -3,15 +3,22 @@ import { Upload } from "../../assets"
 import { color } from "../../styles/color"
 
 interface PropsType {
-  size?: number
+  size?: number,
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: () => void;
 }
 
-export const ChatInput = ({ size = 100 }: PropsType) => {
+export const ChatInput = ({ size = 100, value, onChange, onSubmit }: PropsType) => {
   return (
     <Container size={size}>
-      <Input placeholder="댓글을 입력해주세요." />
+      <Input
+        placeholder="댓글을 입력해주세요."
+        value={value}
+        onChange={onChange}
+      />
       <IconWrap>
-        <Upload color={color.green400} />
+        <Upload color={color.green400} onClick={onSubmit} />
       </IconWrap>
     </Container>
   )

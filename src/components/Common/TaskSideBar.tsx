@@ -17,7 +17,8 @@ export const TaskSideBar = () => {
     selectedLabel,
     selectedWorkArea,
     selectedPriority,
-    selectedManager
+    selectedManager,
+    addComment
   } = useTaskStore();
 
   const selectedTask = tasks.find((task) =>
@@ -27,6 +28,7 @@ export const TaskSideBar = () => {
 
   const [title, setTitle] = useState(selectedTodo?.title || "제목을 입력해주세요.");
   const [description, setDescription] = useState(selectedTodo?.description || "상세 내용을 입력해주세요.");
+  const [commentInput, setCommentInput] = useState('');
 
   const isEditMode = !!selectedTodo;
 
@@ -48,7 +50,12 @@ export const TaskSideBar = () => {
   }, [title, description]);
 
   const handleCreateTodo = () => {
-    if (selectedManager) {
+    if (!selectedManager) {
+      alert("담당자를 선택해주세요.");
+      return;
+    }
+
+    try {
       createTodo(
         {
           todoId: Date.now(),
@@ -66,7 +73,23 @@ export const TaskSideBar = () => {
         },
         new Date().toISOString().split("T")[0]
       );
+    } catch (error) {
+      console.error('할 일을 생성하는 도중 오류가 발생하였습니다.', error);
     }
+  };
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCommentInput(e.target.value);
+  };
+
+  const handleAddComment = () => {
+    if (commentInput.trim() === '') return;
+
+    if (selectedTodoId !== null) {
+      addComment(selectedTodoId, commentInput);
+      setCommentInput('');
+    }
+    setCommentInput('');
   };
 
   return (
@@ -97,7 +120,12 @@ export const TaskSideBar = () => {
         </CommentWrap>
         {
           isEditMode ? (
-            <ChatInput size={94} />
+            <ChatInput
+              size={94}
+              value={commentInput}
+              onChange={handleCommentChange}
+              onSubmit={handleAddComment}
+            />
           ) : (
             <Button onClick={handleCreateTodo}>할 일 업로드</Button>
           )

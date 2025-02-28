@@ -19,6 +19,9 @@ interface TaskStore {
   setSelectedWorkArea: (workArea: string) => void;
   setSelectedPriority: (priority: string) => void;
   setSelectedManager: (manager: TeamMemberType) => void;
+
+  addComment: (todoId: number, userId: string) => void;
+  deleteComment: (todoId: number, commentIndex: number) => void;
 }
 
 export const useTaskStore = create<TaskStore>((set) => ({
@@ -75,6 +78,47 @@ export const useTaskStore = create<TaskStore>((set) => ({
   setSelectedWorkArea: (workArea) => set({ selectedWorkArea: workArea }),
   setSelectedPriority: (priority) => set({ selectedPriority: priority }),
   setSelectedManager: (manager) => set({ selectedManager: manager }),
+
+  addComment: (todoId, content) =>
+    set((state) => {
+      const updatedTasks = state.tasks.map((task) => ({
+        ...task,
+        todo: task.todo.map((t) =>
+          t.todoId === todoId
+            ? {
+              ...t,
+              comment: [
+                ...t.comment,
+                {
+                  commentId: Date.now(),
+                  profile: "https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/02/urban-20230228144115810458.jpg",
+                  userId: "유저이름",
+                  commentDate: "지금",
+                  commentContent: content,
+                },
+              ],
+            }
+            : t
+        ),
+      }));
+      return { tasks: updatedTasks };
+    }),
+
+  deleteComment: (todoId, commentIndex) =>
+    set((state) => {
+      const updatedTasks = state.tasks.map((task) => ({
+        ...task,
+        todo: task.todo.map((t) =>
+          t.todoId === todoId
+            ? {
+              ...t,
+              comments: t.comment.filter((_, index) => index !== commentIndex),
+            }
+            : t
+        ),
+      }));
+      return { tasks: updatedTasks };
+    }),
 }));
 
 export const initializeTasks = () => {
