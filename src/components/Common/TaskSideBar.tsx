@@ -109,7 +109,7 @@ const TaskWrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 12px 24px;
-  gap: 36px;
+  gap: 52px;
 `
 
 const Title = styled.input`
