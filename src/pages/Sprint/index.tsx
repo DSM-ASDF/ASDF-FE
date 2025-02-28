@@ -7,6 +7,7 @@ import { color } from "../../styles/color";
 import { TaskDummy } from "../../utils/dummy/TaskDummy"
 import { TodoType } from "../../utils/dummy/TaskDummy";
 import { Major, WorkArea, Priority } from "../../utils/Data/Task";
+import { useDropDownStore } from "../../stores/useDropDownStore";
 
 const TaskSection = ({ title, tasks }: { title: string, tasks: TodoType[] }) => {
   return (
@@ -32,6 +33,8 @@ export const Sprint = () => {
   const [todayTasks, setTodayTasks] = useState<TodoType[]>([]);
   const [completedTasks, setCompletedTasks] = useState<TodoType[]>([]);
 
+  const { selectedMajor, selectedWorkArea, selectedPriority } = useDropDownStore();
+
   const currentDate = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
@@ -39,18 +42,36 @@ export const Sprint = () => {
     const todayTodo = TaskDummy.filter(task => task.date === currentDate).flatMap(task => task.todo);
     const completedTodo = todayTodo.filter(todo => todo.progress);
 
-    setAllTasks(allTodo);
-    setTodayTasks(todayTodo);
-    setCompletedTasks(completedTodo);
-  }, [currentDate]);
+    const filteredAllTasks = allTodo.filter(task => 
+      (selectedMajor ? task.label === selectedMajor : true) &&
+      (selectedWorkArea ? task.workArea === selectedWorkArea : true) &&
+      (selectedPriority ? task.priority === selectedPriority : true)
+    );
+
+    const filteredTodayTasks = todayTodo.filter(task =>
+      (selectedMajor ? task.label === selectedMajor : true) &&
+      (selectedWorkArea ? task.workArea === selectedWorkArea : true) &&
+      (selectedPriority ? task.priority === selectedPriority : true)
+    );
+
+    const filteredCompletedTasks = completedTodo.filter(task =>
+      (selectedMajor ? task.label === selectedMajor : true) &&
+      (selectedWorkArea ? task.workArea === selectedWorkArea : true) &&
+      (selectedPriority ? task.priority === selectedPriority : true)
+    );
+
+    setAllTasks(filteredAllTasks);
+    setTodayTasks(filteredTodayTasks);
+    setCompletedTasks(filteredCompletedTasks);
+  }, [currentDate, selectedMajor, selectedWorkArea, selectedPriority]);
 
   return (
     <Container>
       <SearchWrap>
         <DropDownWrap>
-          <DropDown title="레이블 선택" options={Major} />
-          <DropDown title="작업 영역 선택" options={WorkArea} />
-          <DropDown title="우선순위 선택" options={Priority} />
+          <DropDown title="레이블 선택" options={Major} type="Major"/>
+          <DropDown title="작업 영역 선택" options={WorkArea} type="WorkArea" />
+          <DropDown title="우선순위 선택" options={Priority} type="Priority" />
         </DropDownWrap>
         <Reset size={18} color={color.white} />
       </SearchWrap>

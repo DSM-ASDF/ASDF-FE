@@ -3,20 +3,33 @@ import styled from "styled-components";
 import { Arrow } from "../../assets";
 import { color } from "../../styles/color";
 import { Font } from "../../styles/font";
+import { MajorType, WorkAreaType, PriorityType } from "../../utils/Data/Task";
+import { useDropDownStore } from "../../stores/useDropDownStore";
 
 interface PropsType {
   title?: string,
   open?: boolean,
-  options?: readonly string[];
+  options?: readonly string[],
+  type?: 'Major' | 'WorkArea' | 'Priority'
 }
 
-export const DropDown = ({ title = "항목 선택", open = false, options = [] }: PropsType) => {
+export const DropDown = ({ title = "항목 선택", open = false, options = [], type }: PropsType) => {
+  const { setSelectedMajor, setSelectedWorkArea, setSelectedPriority } = useDropDownStore();
+
   const [select, setSelect] = useState<string>(title);
   const [optionOpen, setOptionOpen] = useState<boolean>(open);
 
   const handleSelect = (option: string) => {
     setSelect(option);
     setOptionOpen(false)
+
+    if (type === "Major") {
+      setSelectedMajor(option as MajorType);
+    } else if (type === "WorkArea") {
+      setSelectedWorkArea(option as WorkAreaType);
+    } else if (type === "Priority") {
+      setSelectedPriority(option as PriorityType);
+    }
   }
 
   return (
