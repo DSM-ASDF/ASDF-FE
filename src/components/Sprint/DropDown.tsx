@@ -9,7 +9,7 @@ interface PropsType {
   open?: boolean
 }
 
-export const DropDown = ({ title = "항목 선택", open = true }: PropsType) => {
+export const DropDown = ({ title = "항목 선택", open = false }: PropsType) => {
   const [select, setSelect] = useState<string>(title);
   const [optionOpen, setOptionOpen] = useState<boolean>(open);
 
