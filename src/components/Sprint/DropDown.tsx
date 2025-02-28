@@ -6,24 +6,35 @@ import { Font } from "../../styles/font";
 
 interface PropsType {
   title?: string,
-  open?: boolean
+  open?: boolean,
+  options?: readonly string[];
 }
 
-export const DropDown = ({ title = "항목 선택", open = false }: PropsType) => {
+export const DropDown = ({ title = "항목 선택", open = false, options = [] }: PropsType) => {
   const [select, setSelect] = useState<string>(title);
   const [optionOpen, setOptionOpen] = useState<boolean>(open);
+
+  const handleSelect = (option: string) => {
+    setSelect(option);
+    setOptionOpen(false)
+  }
 
   return (
     <Container>
       <DropDownSelect onClick={() => setOptionOpen(!optionOpen)}>
         <SelectText>{select}</SelectText>
-        <Arrow color={color.gray200} rotate="bottom" />
+        <Arrow color={color.gray200} rotate={optionOpen ? "top" : "bottom"} />
       </DropDownSelect>
       {
         optionOpen &&
         <OptionWrap>
-          <OptionSelect>레이블 선택</OptionSelect>
-          <OptionSelect>레이블 선택</OptionSelect>
+          {
+            options.map((option) => (
+              <OptionSelect key={option} onClick={() => handleSelect(option)}>
+                {option}
+              </OptionSelect>
+            ))
+          }
         </OptionWrap>
       }
     </Container>
@@ -32,7 +43,7 @@ export const DropDown = ({ title = "항목 선택", open = false }: PropsType) =
 
 const Container = styled.div`
   position: relative;
-  min-width: 120px;
+  min-width: 140px;
 `
 
 const DropDownSelect = styled.div`
