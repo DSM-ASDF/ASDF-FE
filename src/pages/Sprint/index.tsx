@@ -5,10 +5,10 @@ import { Plus, Reset } from "../../assets";
 import { Todo } from "../../components/Sprint/Todo";
 import { color } from "../../styles/color";
 import { TaskDummy } from "../../utils/dummy/TaskDummy"
-import { TaskType, TodoType } from "../../utils/dummy/TaskDummy";
+import { TodoType } from "../../utils/dummy/TaskDummy";
 import { Major, WorkArea, Priority } from "../../utils/Data/Task";
 
-const TaskSection = ({ title, tasks }: { title: string, tasks: TaskType[] }) => {
+const TaskSection = ({ title, tasks }: { title: string, tasks: TodoType[] }) => {
   return (
     <TodoWrap>
       <TodoHeader>
@@ -19,29 +19,29 @@ const TaskSection = ({ title, tasks }: { title: string, tasks: TaskType[] }) => 
         <Plus color={color.gray200} />
       </TodoHeader>
       <TodoBody>
-        {tasks.flatMap((task: TaskType) =>
-          task.todo.map((todo: TodoType) => (
-            <Todo key={todo.todoId} task={todo} />
-          ))
-        )}
+        {tasks.map((todo) => (
+          <Todo key={todo.todoId} task={todo} />
+        ))}
       </TodoBody>
     </TodoWrap>
   )
 }
 
 export const Sprint = () => {
-  const [todayTasks, setTodayTasks] = useState<TaskType[]>([]);
-  const [completedTasks, setCompletedTasks] = useState<TaskType[]>([]);
+  const [allTasks, setAllTasks] = useState<TodoType[]>([]);
+  const [todayTasks, setTodayTasks] = useState<TodoType[]>([]);
+  const [completedTasks, setCompletedTasks] = useState<TodoType[]>([]);
+
   const currentDate = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
-    const filteredTasks = TaskDummy.filter(task => task.date === currentDate);
-    //오늘날짜이면서 진행도가 true인 놈들만 골라와야함 수정 필요!!
-    const completed = TaskDummy.filter(task =>
-      task.todo.every(todo => todo.progress)
-    );
-    setTodayTasks(filteredTasks);
-    setCompletedTasks(completed);
+    const allTodo = TaskDummy.flatMap(task => task.todo);
+    const todayTodo = TaskDummy.filter(task => task.date === currentDate).flatMap(task => task.todo);
+    const completedTodo = todayTodo.filter(todo => todo.progress);
+
+    setAllTasks(allTodo);
+    setTodayTasks(todayTodo);
+    setCompletedTasks(completedTodo);
   }, [currentDate]);
 
   return (
@@ -56,7 +56,7 @@ export const Sprint = () => {
       </SearchWrap>
 
       <Content>
-        <TaskSection title="모든 할 일" tasks={TaskDummy} />
+        <TaskSection title="모든 할 일" tasks={allTasks} />
         <TaskSection title="오늘 할 일" tasks={todayTasks} />
         <TaskSection title="완료한 일" tasks={completedTasks} />
       </Content>
