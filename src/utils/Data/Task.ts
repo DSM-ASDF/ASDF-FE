@@ -12,7 +12,9 @@ export const Major = [
   'Security',
   'PM',
   'QA'
-];
+] as const;
+
+export type MajorType = (typeof Major)[number];
 
 export const WorkArea = [
   '버그',
@@ -22,4 +24,14 @@ export const WorkArea = [
   '문서화',
   '테스트',
   '배포'
-]
+] as const;
+
+export type WorkAreaType = (typeof WorkArea)[number];
+
+export const Progress = [
+  '긴급',
+  '중간',
+  '낮음'
+] as const;
+
+export type ProgressType = (typeof Progress)[number];
