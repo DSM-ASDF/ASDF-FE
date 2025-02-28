@@ -58,7 +58,7 @@ export const TaskSideBar = () => {
     <Container>
       <CancelSettingWrap>
         <Cancel color={color.white} />
-        <Dots color={color.white} />
+        <Dots color={color.white} orientation="vertical" />
       </CancelSettingWrap>
 
       <TaskWrap>
