@@ -28,10 +28,10 @@ export const WorkArea = [
 
 export type WorkAreaType = (typeof WorkArea)[number];
 
-export const Progress = [
+export const Priority = [
   '긴급',
   '중간',
   '낮음'
 ] as const;
 
-export type ProgressType = (typeof Progress)[number];
+export type PriorityType = (typeof Priority)[number];

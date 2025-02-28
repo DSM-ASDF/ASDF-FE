@@ -6,6 +6,7 @@ import { Todo } from "../../components/Sprint/Todo";
 import { color } from "../../styles/color";
 import { TaskDummy } from "../../utils/dummy/TaskDummy"
 import { TaskType, TodoType } from "../../utils/dummy/TaskDummy";
+import { Major, WorkArea, Priority } from "../../utils/Data/Task";
 
 const TaskSection = ({ title, tasks }: { title: string, tasks: TaskType[] }) => {
   return (
@@ -18,7 +19,7 @@ const TaskSection = ({ title, tasks }: { title: string, tasks: TaskType[] }) => 
         <Plus color={color.gray200} />
       </TodoHeader>
       <TodoBody>
-        {tasks.flatMap((task: TaskType) => 
+        {tasks.flatMap((task: TaskType) =>
           task.todo.map((todo: TodoType) => (
             <Todo key={todo.todoId} task={todo} />
           ))
@@ -35,8 +36,9 @@ export const Sprint = () => {
 
   useEffect(() => {
     const filteredTasks = TaskDummy.filter(task => task.date === currentDate);
-    const completed = TaskDummy.filter(task => 
-      task.todo.some(todo => todo.progress)
+    //오늘날짜이면서 진행도가 true인 놈들만 골라와야함 수정 필요!!
+    const completed = TaskDummy.filter(task =>
+      task.todo.every(todo => todo.progress)
     );
     setTodayTasks(filteredTasks);
     setCompletedTasks(completed);
@@ -46,9 +48,9 @@ export const Sprint = () => {
     <Container>
       <SearchWrap>
         <DropDownWrap>
-          <DropDown />
-          <DropDown />
-          <DropDown />
+          <DropDown title="레이블 선택" options={Major} />
+          <DropDown title="작업 영역 선택" options={WorkArea} />
+          <DropDown title="우선순위 선택" options={Priority} />
         </DropDownWrap>
         <Reset size={18} color={color.white} />
       </SearchWrap>
