@@ -5,9 +5,13 @@ import { color } from "../../styles/color";
 import { Font } from "../../styles/font";
 import { TodoType } from "../../utils/dummy/TaskDummy";
 import { useTodoStore } from "../../stores/useTodoStore";
+import { DeleteButton } from "../Common/DeleteButton";
+import { useState } from "react";
 
-export const Todo = ({ task }: { task: TodoType}) => {
+export const Todo = ({ task }: { task: TodoType }) => {
   const { title, taskOwner, label, workArea, priority, description, progress, comment } = task;
+
+  const [deleteVisible, setDeleteVisible] = useState<boolean>(false);
 
   const setTodo = useTodoStore((state) => state.setTodo);
 
@@ -28,7 +32,8 @@ export const Todo = ({ task }: { task: TodoType}) => {
     <Container onClick={handleClick}>
       <TitleSetting>
         <Title>{title}</Title>
-        <Dots size={20} color={color.gray300} />
+        <Dots size={20} color={color.gray300} onClick={() => setDeleteVisible(!deleteVisible)} />
+        {deleteVisible && <DeleteButton />}
       </TitleSetting>
       <TagWrap>
         <Tag text={label} type="Major" />
@@ -55,6 +60,7 @@ const Container = styled.div`
 `
 
 const TitleSetting = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
