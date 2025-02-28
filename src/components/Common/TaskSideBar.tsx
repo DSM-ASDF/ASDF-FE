@@ -9,7 +9,16 @@ import { useTodoStore } from "../../stores/useTodoStore";
 import { useState, useEffect } from "react";
 
 export const TaskSideBar = () => {
-  const { todoId, title: todoTitle, taskOwner, label, workArea, priority, description: todoDescription, comment } = useTodoStore((state) => state.todo);
+  const {
+    todoId,
+    title: todoTitle,
+    taskOwner,
+    label,
+    workArea,
+    priority,
+    description: todoDescription,
+    comment
+  } = useTodoStore((state) => state.todo);
 
   const [title, setTitle] = useState(todoTitle || "제목을 입력해주세요.");
   const [description, setDescription] = useState(todoDescription || "상세 내용을 입력해주세요.");

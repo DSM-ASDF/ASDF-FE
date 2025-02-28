@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Font } from "../../styles/font";
 import { color } from "../../styles/color";
@@ -8,11 +9,17 @@ interface PropsType {
   manager?: { profile: string; userId: string };
 }
 
-export const TaskList = ({ title = "제목", select = "선택옵션" }: PropsType) => {
+export const TaskList = ({ title = "제목", select = "" }: PropsType) => {
+  const [selectedItem, setSelectedItem] = useState(select === "" ? `${title} 선택` : select);
+
+  useEffect(() => {
+    setSelectedItem(select === "" ? `${title} 선택` : select);
+  }, [select, title]);
+
   return (
     <TaskListContainer>
       <Title>{title}</Title>
-      <Select>{select}</Select>
+      <Select>{selectedItem}</Select>
     </TaskListContainer>
   )
 }
@@ -22,8 +29,8 @@ export const TaskManagerList = ({ title = "제목", manager = { profile: "", use
     <TaskListContainer>
       <Title>{title}</Title>
       <AssignerWrap>
-        <Profile src={manager.profile} />
-        <Select>{manager.userId}</Select>
+        <Profile src={manager.profile || ""} />
+        <Select>{manager.userId || "담당자 선택"}</Select>
       </AssignerWrap>
     </TaskListContainer>
   )
@@ -50,9 +57,10 @@ const AssignerWrap = styled.div`
   gap: 8px;
 `
 
-const Profile = styled.img`
+const Profile = styled.img<{ src: string }>`
   width: 20px;
   height: 20px;
   border-radius: 50%;
   object-fit: cover;
+  display: ${({ src }) => (src ? "block" : "none")};
 `
