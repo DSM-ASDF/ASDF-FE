@@ -4,16 +4,28 @@ import { Tag } from "./Tag";
 import { color } from "../../styles/color";
 import { Font } from "../../styles/font";
 import { TodoType } from "../../utils/dummy/TaskDummy";
+import { useTodoStore } from "../../stores/useTodoStore";
 
-interface TodoProps {
-  task: TodoType;
-}
+export const Todo = ({ task }: { task: TodoType}) => {
+  const { title, taskOwner, label, workArea, priority, description, progress, comment } = task;
 
-export const Todo = ({ task }: TodoProps) => {
-  const { title, taskOwner, label, workArea, priority, progress } = task;
+  const setTodo = useTodoStore((state) => state.setTodo);
+
+  const handleClick = () => {
+    setTodo({
+      title,
+      taskOwner,
+      label,
+      workArea,
+      priority,
+      description,
+      progress,
+      comment,
+    });
+  };
 
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <TitleSetting>
         <Title>{title}</Title>
         <Dots size={20} color={color.gray300} />

@@ -1,22 +1,24 @@
 import styled from "styled-components";
-import { Dots } from "../../assets";
+//import { Dots } from "../../assets";
 import { color } from "../../styles/color";
 import { Font } from "../../styles/font";
+import { CommentType } from "../../utils/dummy/TaskDummy";
 
-export const Comment = () => {
+export const Comment = ({ commentId, profile, userId, commentDate, commentContent }: CommentType) => {
+
   return (
     <Container>
       <CommentHeader>
         <UserInfoTimeWrap>
-          <ProfileImage></ProfileImage>
+          <ProfileImage src={profile} />
           <UserIdTimeWrap>
             <UserId>포로리</UserId>
-            <Time>지금</Time>
+            <Time>{commentDate}</Time>
           </UserIdTimeWrap>
         </UserInfoTimeWrap>
-        <Dots size={20} color={color.gray300} />
+        {/* <Dots size={20} color={color.gray300} /> */}
       </CommentHeader>
-      <CommentContent>안녕하세요</CommentContent>
+      <CommentContent>{commentContent}</CommentContent>
     </Container>
   )
 }
@@ -41,11 +43,12 @@ const UserInfoTimeWrap = styled.div`
   gap: 12px;
 `
 
-const ProfileImage = styled.image`
+const ProfileImage = styled.img`
   width: 32px;
   height: 32px;
-  border-radius: 100%;
+  border-radius: 50%;
   background-color: ${color.gray500};
+  object-fit: cover;
 `
 
 const UserIdTimeWrap = styled.div`

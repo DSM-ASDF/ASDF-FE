@@ -1,12 +1,24 @@
 import styled from "styled-components";
 import { Cancel, Dots } from "../../assets"
-import { TaskList } from "./TaskList";
+import { TaskList, TaskManagerList } from "./TaskList";
 import { color } from "../../styles/color";
 import { Comment } from "./Comment";
 import { ChatInput } from "./ChatInput";
 import { Font } from "../../styles/font";
+import { useTodoStore } from "../../stores/useTodoStore";
+import { useState, useEffect } from "react";
 
 export const TaskSideBar = () => {
+  const { todoId, title: todoTitle, taskOwner, label, workArea, priority, description: todoDescription, comment } = useTodoStore((state) => state.todo);
+
+  const [title, setTitle] = useState(todoTitle || "제목을 입력해주세요.");
+  const [description, setDescription] = useState(todoDescription || "상세 내용을 입력해주세요.");
+
+  useEffect(() => {
+    setTitle(todoTitle || "제목을 입력해주세요.");
+    setDescription(todoDescription || "상세 내용을 입력해주세요.");
+  }, [todoTitle, todoDescription]);
+
   return (
     <Container>
       <CancelSettingWrap>
@@ -16,20 +28,24 @@ export const TaskSideBar = () => {
 
       <TaskWrap>
         <TaskDetailWrap>
-          <Title placeholder="제목을 입력해주세요." />
+          <Title value={title} onChange={(e) => setTitle(e.target.value)} />
           <ListWrap>
-            <TaskList />
-            <TaskList />
-            <TaskList />
-            <TaskList />
+            <TaskManagerList title="담당자" manager={taskOwner} />
+            <TaskList title="레이블" select={label} />
+            <TaskList title="작업영역" select={workArea} />
+            <TaskList title="우선순위" select={priority} />
           </ListWrap>
         </TaskDetailWrap>
-        <TaskDescription placeholder="상세 내용을 입력해주세요." />
+        <TaskDescription value={description} onChange={(e) => setDescription(e.target.value)} />
       </TaskWrap>
 
       <CommentWrap>
-        <Comment />
-        <Comment />
+        <CommentWrap>
+          {comment.map((value) => (
+            <Comment key={value.commentId} {...value} />
+          ))}
+          <ChatInput size={94} />
+        </CommentWrap>
         <ChatInput size={94} />
       </CommentWrap>
     </Container>
@@ -87,6 +103,7 @@ const TaskDescription = styled.textarea`
 `
 
 const CommentWrap = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
