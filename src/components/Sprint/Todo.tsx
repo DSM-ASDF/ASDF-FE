@@ -72,5 +72,6 @@ const Profile = styled.img`
   width: 24px;
   height: 24px;
   background-color: ${color.gray500};
-  border-radius: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 `
