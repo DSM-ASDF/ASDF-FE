@@ -4,28 +4,19 @@ import { Tag } from "./Tag";
 import { color } from "../../styles/color";
 import { Font } from "../../styles/font";
 import { TodoType } from "../../utils/dummy/TaskDummy";
-import { useTodoStore } from "../../stores/useTodoStore";
+import { useTaskStore } from "../../stores/useTaskStore";
 import { DeleteButton } from "../Common/DeleteButton";
 import { useState } from "react";
 
 export const Todo = ({ task }: { task: TodoType }) => {
-  const { title, taskOwner, label, workArea, priority, description, progress, comment } = task;
+  const { todoId, title, taskOwner, label, workArea, priority, progress } = task;
+
+  const setSelectedTodoId = useTaskStore((state) => state.setSelectedTodoId)
 
   const [deleteVisible, setDeleteVisible] = useState<boolean>(false);
 
-  const setTodo = useTodoStore((state) => state.setTodo);
-
   const handleClick = () => {
-    setTodo({
-      title,
-      taskOwner,
-      label,
-      workArea,
-      priority,
-      description,
-      progress,
-      comment,
-    });
+    setSelectedTodoId(todoId);
   };
 
   return (
@@ -33,7 +24,7 @@ export const Todo = ({ task }: { task: TodoType }) => {
       <TitleSetting>
         <Title>{title}</Title>
         <Dots size={20} color={color.gray300} onClick={() => setDeleteVisible(!deleteVisible)} />
-        {deleteVisible && <DeleteButton todoId={task.todoId}/>}
+        {deleteVisible && <DeleteButton todoId={task.todoId} />}
       </TitleSetting>
       <TagWrap>
         <Tag text={label} type="Major" />

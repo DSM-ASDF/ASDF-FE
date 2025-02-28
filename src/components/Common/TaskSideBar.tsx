@@ -5,42 +5,42 @@ import { color } from "../../styles/color";
 import { Comment } from "./Comment";
 import { ChatInput } from "./ChatInput";
 import { Font } from "../../styles/font";
-import { useTodoStore } from "../../stores/useTodoStore";
 import { useState, useEffect } from "react";
+import { useTaskStore } from "../../stores/useTaskStore";
 
 export const TaskSideBar = () => {
-  const {
-    todoId,
-    title: todoTitle,
-    taskOwner,
-    label,
-    workArea,
-    priority,
-    description: todoDescription,
-    comment
-  } = useTodoStore((state) => state.todo);
-  const { setTodo, createTodo } = useTodoStore()
+  const { tasks, selectedTodoId, setTodo, createTodo } = useTaskStore();
 
-  const [title, setTitle] = useState(todoTitle || "제목을 입력해주세요.");
-  const [description, setDescription] = useState(todoDescription || "상세 내용을 입력해주세요.");
+  const selectedTask = tasks.find((task) =>
+    task.todo.some((t) => t.todoId === selectedTodoId)
+  );
+  const selectedTodo = selectedTask?.todo.find((t) => t.todoId === selectedTodoId);
 
-  const isEditMode = todoId !== 0;
+  const [title, setTitle] = useState(selectedTodo?.title || "제목을 입력해주세요.");
+  const [description, setDescription] = useState(selectedTodo?.description || "상세 내용을 입력해주세요.");
+
+  const isEditMode = !!selectedTodo;
 
   useEffect(() => {
     if (isEditMode) {
-      setTitle(todoTitle || "제목을 입력해주세요.");
-      setDescription(todoDescription || "상세 내용을 입력해주세요.");
+      setTitle(selectedTodo?.title || "제목을 입력해주세요.");
+      setDescription(selectedTodo?.description || "상세 내용을 입력해주세요.");
     }
-  }, [todoTitle, todoDescription, isEditMode]);
+  }, [selectedTodo, isEditMode]);
 
-  const handleSave = () => {
-    if (isEditMode) {
+  useEffect(() => {
+    if (isEditMode && selectedTodo) {
       setTodo({
+        todoId: selectedTodo.todoId,
         title,
-        description
+        description,
       });
-    } else {
-      createTodo({
+    }
+  }, [title, description]);
+
+  const handleCreateTodo = () => {
+    createTodo(
+      {
         todoId: Date.now(),
         title,
         taskOwner: { profile: "", userId: "" },
@@ -49,9 +49,10 @@ export const TaskSideBar = () => {
         priority: "",
         description,
         progress: false,
-        comment: []
-      });
-    }
+        comment: [],
+      },
+      new Date().toISOString().split("T")[0]
+    );
   };
 
   return (
@@ -65,10 +66,10 @@ export const TaskSideBar = () => {
         <TaskDetailWrap>
           <Title value={title} onChange={(e) => setTitle(e.target.value)} />
           <ListWrap>
-            <TaskManagerList title="담당자" manager={taskOwner} />
-            <TaskList title="레이블" select={label} type="label" />
-            <TaskList title="작업영역" select={workArea} type="workArea" />
-            <TaskList title="우선순위" select={priority} type="priority" />
+            <TaskManagerList title="담당자" manager={selectedTodo?.taskOwner} />
+            <TaskList title="레이블" select={selectedTodo?.label} type="label" />
+            <TaskList title="작업영역" select={selectedTodo?.workArea} type="workArea" />
+            <TaskList title="우선순위" select={selectedTodo?.priority} type="priority" />
           </ListWrap>
         </TaskDetailWrap>
         <TaskDescription value={description} onChange={(e) => setDescription(e.target.value)} />
@@ -76,7 +77,7 @@ export const TaskSideBar = () => {
 
       <CommentWrap>
         <CommentWrap>
-          {comment.map((value) => (
+          {selectedTodo?.comment.map((value) => (
             <Comment key={value.commentId} {...value} />
           ))}
         </CommentWrap>
@@ -84,7 +85,7 @@ export const TaskSideBar = () => {
           isEditMode ? (
             <ChatInput size={94} />
           ) : (
-            <Button onClick={handleSave}>할 일 업로드</Button>
+            <Button onClick={handleCreateTodo}>할 일 업로드</Button>
           )
         }
       </CommentWrap>
