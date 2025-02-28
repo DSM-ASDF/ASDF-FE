@@ -91,35 +91,6 @@ export const TaskDummy: TaskType[] = [
             commentContent: "입력 창 컴포넌트 디자인 수정하고 있습니다. 참고해주세요!!"
           },
         ]
-      },
-      {
-        todoId: 3,
-        title: "테스트용2",
-        taskOwner: {
-          profile: "https://i.namu.wiki/i/FyIUKdlPFlNwxDuYC16AX1O9MJYS_qb_KPJ5jV6nrsERtWfRmzEpET44hpRGaZS5Oefuu_vpCwdQW1LMYKAWrw.webp",
-          userId: "임다영",
-        },
-        label: "FrontEnd",
-        workArea: "퍼블리싱",
-        priority: "중간",
-        description: "회원가입 및 로그인 입력 창 컴포넌트 입니다",
-        progress: false,
-        comment: [
-          {
-            commentId: 1,
-            profile: "https://blog.kakaocdn.net/dn/yyNcR/btqzklYVznB/OKDXk6MownzwNWjZwTsJ00/img.jpg",
-            userId: "포로리",
-            commentDate: "지금",
-            commentContent: "입력 창 컴포넌트 디자인 변경되었습니다 확인해주세요!!"
-          },
-          {
-            commentId: 2,
-            profile: "https://blog.kakaocdn.net/dn/yyNcR/btqzklYVznB/OKDXk6MownzwNWjZwTsJ00/img.jpg",
-            userId: "포로리",
-            commentDate: "1일전",
-            commentContent: "입력 창 컴포넌트 디자인 수정하고 있습니다. 참고해주세요!!"
-          },
-        ]
       }
     ]
   },

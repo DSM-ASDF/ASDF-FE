@@ -33,7 +33,7 @@ export const Todo = ({ task }: { task: TodoType }) => {
       <TitleSetting>
         <Title>{title}</Title>
         <Dots size={20} color={color.gray300} onClick={() => setDeleteVisible(!deleteVisible)} />
-        {deleteVisible && <DeleteButton />}
+        {deleteVisible && <DeleteButton todoId={task.todoId}/>}
       </TitleSetting>
       <TagWrap>
         <Tag text={label} type="Major" />

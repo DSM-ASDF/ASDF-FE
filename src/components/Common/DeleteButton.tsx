@@ -1,10 +1,17 @@
 import styled from "styled-components";
 import { color } from "../../styles/color";
 import { Font } from "../../styles/font";
+import { useTaskStore } from "../../stores/useTaskStore";
 
-export const DeleteButton = () => {
+export const DeleteButton = ({ todoId }: { todoId: number }) => {
+  const deleteTask = useTaskStore((state) => state.deleteTask);
+  
+  const handleDelete = () => {
+    deleteTask(todoId);
+  };
+
   return (
-    <DeleteButtonContainer>삭제하기</DeleteButtonContainer>
+    <DeleteButtonContainer onClick={handleDelete}>삭제하기</DeleteButtonContainer>
   )
 }
 
