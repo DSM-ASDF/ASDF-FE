@@ -26,8 +26,8 @@ export const TaskSideBar = () => {
   );
   const selectedTodo = selectedTask?.todo.find((t) => t.todoId === selectedTodoId);
 
-  const [title, setTitle] = useState(selectedTodo?.title || "제목을 입력해주세요.");
-  const [description, setDescription] = useState(selectedTodo?.description || "상세 내용을 입력해주세요.");
+  const [title, setTitle] = useState(selectedTodo?.title || "");
+  const [description, setDescription] = useState(selectedTodo?.description || "");
   const [commentInput, setCommentInput] = useState('');
 
   const isEditMode = !!selectedTodo;
@@ -62,7 +62,7 @@ export const TaskSideBar = () => {
           title,
           taskOwner: {
             profile: selectedManager.profile,
-            userId: selectedManager.userId
+            userId: selectedManager.userName
           },
           label: selectedLabel,
           workArea: selectedWorkArea,
@@ -101,7 +101,11 @@ export const TaskSideBar = () => {
 
       <TaskWrap>
         <TaskDetailWrap>
-          <Title value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Title
+            placeholder="제목을 입력해주세요."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
           <ListWrap>
             <TaskManagerList title="담당자" manager={selectedTodo?.taskOwner} />
             <TaskList title="레이블" select={selectedTodo?.label} type="label" />
@@ -109,7 +113,11 @@ export const TaskSideBar = () => {
             <TaskList title="우선순위" select={selectedTodo?.priority} type="priority" />
           </ListWrap>
         </TaskDetailWrap>
-        <TaskDescription value={description} onChange={(e) => setDescription(e.target.value)} />
+        <TaskDescription
+          placeholder="상세 내용을 입력해주세요."
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
       </TaskWrap>
 
       <CommentWrap>
