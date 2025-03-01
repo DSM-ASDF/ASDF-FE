@@ -38,3 +38,5 @@ export const Priority = [
 ] as const;
 
 export type PriorityType = (typeof Priority)[number];
+
+export type CombinedType = MajorType | WorkAreaType | PriorityType;

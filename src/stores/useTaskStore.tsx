@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { TaskType, TodoType, TaskDummy } from '../utils/dummy/TaskDummy';
 import { TeamMemberType } from '../utils/dummy/TeamDummy';
+import { MajorType, WorkAreaType, PriorityType } from '../utils/Data/Task';
 
 interface TaskStore {
   tasks: TaskType[];
@@ -11,13 +12,13 @@ interface TaskStore {
   setTodo: (todo: Partial<TodoType>) => void;
   createTodo: (todo: TodoType, date: string) => void;
 
-  selectedLabel: string;
-  selectedWorkArea: string;
-  selectedPriority: string;
+  selectedLabel: MajorType;
+  selectedWorkArea: WorkAreaType;
+  selectedPriority: PriorityType;
   selectedManager: TeamMemberType | null;
-  setSelectedLabel: (label: string) => void;
-  setSelectedWorkArea: (workArea: string) => void;
-  setSelectedPriority: (priority: string) => void;
+  setSelectedLabel: (label: MajorType) => void;
+  setSelectedWorkArea: (workArea: WorkAreaType) => void;
+  setSelectedPriority: (priority: PriorityType) => void;
   setSelectedManager: (manager: TeamMemberType) => void;
 
   addComment: (todoId: number, userId: string) => void;

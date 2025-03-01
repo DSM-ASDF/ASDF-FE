@@ -3,15 +3,27 @@ import styled from "styled-components";
 import { Font } from "../../styles/font";
 import { color } from "../../styles/color";
 import { TaskDropDown } from "./TaskDropDown";
-import { Major, WorkArea, Priority } from "../../utils/Data/Task"
+import {
+  Major,
+  WorkArea,
+  Priority,
+  MajorType,
+  WorkAreaType,
+  PriorityType,
+  CombinedType
+} from "../../utils/Data/Task"
 import { useTaskStore } from "../../stores/useTaskStore";
 import { TeamDummy, TeamMemberType } from "../../utils/dummy/TeamDummy";
 
 interface PropsType {
   title?: string,
   select?: string,
-  manager?: { profile: string; userId: number, userName: string },
   type?: 'label' | 'workArea' | 'priority'
+}
+
+interface ManagerPropsType {
+  title?: string,
+  manager?: { profile: string; userId: number, userName?: string } | undefined,
 }
 
 export const TaskList = ({ title = "제목", select = "", type }: PropsType) => {
@@ -44,13 +56,13 @@ export const TaskList = ({ title = "제목", select = "", type }: PropsType) => 
     }
   };
 
-  const handleSelectOption = (value: string) => {
+  const handleSelectOption = (value: CombinedType) => {
     setSelectedItem(value);
     setIsDropdownVisible(false);
 
-    if (type === "label") setSelectedLabel(value);
-    else if (type === "workArea") setSelectedWorkArea(value);
-    else if (type === "priority") setSelectedPriority(value);
+    if (type === "label") setSelectedLabel(value as MajorType);
+    else if (type === "workArea") setSelectedWorkArea(value as WorkAreaType);
+    else if (type === "priority") setSelectedPriority(value as PriorityType);
   };
 
   return (
@@ -64,7 +76,7 @@ export const TaskList = ({ title = "제목", select = "", type }: PropsType) => 
   )
 }
 
-export const TaskManagerList = ({ title = "제목", manager = { profile: "", userId: 0, userName: "" } }: PropsType) => {
+export const TaskManagerList = ({ title = "제목", manager = { profile: "", userId: 0, userName: "" } }: ManagerPropsType) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const setSelectedManager = useTaskStore((state) => state.setSelectedManager);

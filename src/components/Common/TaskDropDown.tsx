@@ -2,17 +2,18 @@ import styled from "styled-components";
 import { Line } from "../../assets";
 import { color } from "../../styles/color";
 import { useState } from "react";
+import { CombinedType } from "../../utils/Data/Task";
 
 interface PropsType {
   title?: string,
   option?: readonly string[],
-  onSelect?: (value: string) => void
+  onSelect?: (value: CombinedType) => void
 }
 
 export const TaskDropDown = ({ title, option = [], onSelect }: PropsType) => {
-  const [select, setSelect] = useState(title);
+  const [select, setSelect] = useState<CombinedType>(title as CombinedType)
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (value: CombinedType) => {
     setSelect(value)
     if (onSelect) {
       onSelect(value)
@@ -27,7 +28,7 @@ export const TaskDropDown = ({ title, option = [], onSelect }: PropsType) => {
       <OptionWrap>
         {option.map((value) => (
           value != "" ? (
-            <ListWrap key={value} onClick={() => handleSelect(value)}>
+            <ListWrap key={value} onClick={() => handleSelect(value as CombinedType)}>
               <Line size={16} color={color.white} />
               <Text>{value}</Text>
             </ListWrap>
