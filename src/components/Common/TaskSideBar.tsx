@@ -18,6 +18,10 @@ export const TaskSideBar = () => {
     selectedWorkArea,
     selectedPriority,
     selectedManager,
+    setSelectedLabel,
+    setSelectedWorkArea,
+    setSelectedPriority,
+    setSelectedManager,
     addComment
   } = useTaskStore();
 
@@ -73,6 +77,12 @@ export const TaskSideBar = () => {
         },
         new Date().toISOString().split("T")[0]
       );
+      setTitle("");
+      setDescription("");
+      setSelectedLabel("");
+      setSelectedWorkArea("");
+      setSelectedPriority("");
+      setSelectedManager(null);
     } catch (error) {
       console.error('할 일을 생성하는 도중 오류가 발생하였습니다.', error);
     }

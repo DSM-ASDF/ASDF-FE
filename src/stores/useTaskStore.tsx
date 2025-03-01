@@ -19,7 +19,7 @@ interface TaskStore {
   setSelectedLabel: (label: MajorType) => void;
   setSelectedWorkArea: (workArea: WorkAreaType) => void;
   setSelectedPriority: (priority: PriorityType) => void;
-  setSelectedManager: (manager: TeamMemberType) => void;
+  setSelectedManager: (manager: TeamMemberType | null) => void;
 
   addComment: (todoId: number, userId: string) => void;
   deleteComment: (todoId: number, commentIndex: number) => void;

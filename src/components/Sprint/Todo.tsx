@@ -12,11 +12,21 @@ export const Todo = ({ task }: { task: TodoType }) => {
   const { todoId, title, taskOwner, label, workArea, priority, progress } = task;
 
   const setSelectedTodoId = useTaskStore((state) => state.setSelectedTodoId)
+  const setTodo = useTaskStore((state) => state.setTodo);
+  const setSelectedManager = useTaskStore((state) => state.setSelectedManager);
+  const setSelectedLabel = useTaskStore((state) => state.setSelectedLabel);
+  const setSelectedWorkArea = useTaskStore((state) => state.setSelectedWorkArea);
+  const setSelectedPriority = useTaskStore((state) => state.setSelectedPriority);
 
   const [deleteVisible, setDeleteVisible] = useState<boolean>(false);
 
   const handleClick = () => {
     setSelectedTodoId(todoId);
+    setTodo(task);
+    setSelectedManager(taskOwner);
+    setSelectedLabel(label);
+    setSelectedWorkArea(workArea);
+    setSelectedPriority(priority);
   };
 
   return (
