@@ -7,6 +7,7 @@ import { ChatInput } from "./ChatInput";
 import { Font } from "../../styles/font";
 import { useState, useEffect } from "react";
 import { useTaskStore } from "../../stores/useTaskStore";
+import { SchedulePicker } from "./SchedulePicker";
 
 export const TaskSideBar = () => {
   const {
@@ -33,6 +34,7 @@ export const TaskSideBar = () => {
   const [title, setTitle] = useState(selectedTodo?.title || "");
   const [description, setDescription] = useState(selectedTodo?.description || "");
   const [commentInput, setCommentInput] = useState('');
+  const [visibleSchedule, setVisibleSchedule] = useState<boolean>(false);
 
   const isEditMode = !!selectedTodo;
 
@@ -106,7 +108,8 @@ export const TaskSideBar = () => {
     <Container>
       <CancelSettingWrap>
         <Cancel color={color.white} />
-        <Dots color={color.white} orientation="vertical" />
+        <Dots color={color.white} orientation="vertical"  onClick={() => setVisibleSchedule(!visibleSchedule)}/>
+        {visibleSchedule && <SchedulePicker />}
       </CancelSettingWrap>
 
       <TaskWrap>
@@ -161,6 +164,7 @@ const Container = styled.div`
 `
 
 const CancelSettingWrap = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   padding: 16px;

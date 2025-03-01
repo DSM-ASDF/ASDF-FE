@@ -9,8 +9,8 @@ function router() {
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
+        <Route path="/calendar" element={<CalendarWithTask />} />
         <Route element={<Layout />}>
-          <Route path="/calendar" element={<CalendarWithTask />} />
           <Route path="/sprint" element={<Sprint />} />
         </Route>
       </Routes>
