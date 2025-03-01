@@ -86,7 +86,7 @@ export const TaskList = ({ title = "제목", select = "", type }: PropsType) => 
   )
 }
 
-export const TaskManagerList = ({ title = "제목", manager = { profile: "", userId: 0, userName: "" } }: ManagerPropsType) => {
+export const TaskManagerList = ({ title = "제목" } : ManagerPropsType) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const selectedManager = useTaskStore((state) => state.selectedManager)
