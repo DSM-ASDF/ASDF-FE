@@ -1,29 +1,38 @@
 import styled from "styled-components";
 import { Line } from "../../assets";
 import { color } from "../../styles/color";
+import { useState } from "react";
+import { CombinedType } from "../../utils/Data/Task";
 
 interface PropsType {
   title?: string,
-  option?: Array<string>,
-  type?: "Assignee" | "Task"
+  option?: readonly string[],
+  onSelect?: (value: CombinedType) => void
 }
 
-export const TaskDropDown = ({ title, option = [], type = "Task" }: PropsType) => {
+export const TaskDropDown = ({ title, option = [], onSelect }: PropsType) => {
+  const [select, setSelect] = useState<CombinedType>(title as CombinedType)
+
+  const handleSelect = (value: CombinedType) => {
+    setSelect(value)
+    if (onSelect) {
+      onSelect(value)
+    }
+  }
+
   return (
     <DropDownContainer>
       <DropDownSelect>
-        {type === "Assignee" ? (
-          <></>
-        ) : (
-          <Text>{title} 선택</Text>
-        )}
+        <Text>{select}</Text>
       </DropDownSelect>
       <OptionWrap>
         {option.map((value) => (
-          <ListWrap key={value}>
-            {type === "Assignee" ? <ProfileImage /> : <Line size={16} color={color.white} />}
-            <Text>{value}</Text>
-          </ListWrap>
+          value != "" ? (
+            <ListWrap key={value} onClick={() => handleSelect(value as CombinedType)}>
+              <Line size={16} color={color.white} />
+              <Text>{value}</Text>
+            </ListWrap>
+          ) : null
         )
         )}
       </OptionWrap>
@@ -32,13 +41,18 @@ export const TaskDropDown = ({ title, option = [], type = "Task" }: PropsType) =
 }
 
 const DropDownContainer = styled.div`
+  position: absolute;
+  top: -2px;
+  left: 90px;
   width: 380px;
+  max-height: 280px;
   display: flex;
   flex-direction: column;
   gap: 2px;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: scroll;
   background-color: ${color.gray700};
+  z-index: 100;
 `
 
 const DropDownSelect = styled.div`
@@ -55,20 +69,13 @@ const OptionWrap = styled.div`
 const ListWrap = styled.div`
   display: flex;
   align-items: center;
-  padding: 2px 16px;
+  padding: 8px 16px;
   gap: 8px;
   background-color: ${color.gray800};
 
   &:hover {
     background-color: ${color.gray700};
   }
-`
-
-const ProfileImage = styled.image`
-  width: 24px;
-  height: 24px;
-  border-radius: 100%;
-  background-color: ${color.gray500};
 `
 
 const Text = styled.p`

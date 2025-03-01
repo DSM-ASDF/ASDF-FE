@@ -15,6 +15,7 @@ export const Font = {
     12: fontGenerator(600, 12, 120),
   },
   medium: {
+    36: fontGenerator(500, 36, 180),
     32: fontGenerator(500, 32, 180),
     24: fontGenerator(500, 24, 140),
     20: fontGenerator(500, 20, 140),
