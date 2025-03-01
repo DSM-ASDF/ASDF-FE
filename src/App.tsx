@@ -1,10 +1,9 @@
 import { QueryClientProvider, QueryClient } from "react-query";
 import Router from "./router";
-import "./styles/font"
+import "./styles/Font";
 import { CalendarProvider } from "./pages/CalendarWithTask/useCalendarContext";
 
 function App() {
-
   const queryClient = new QueryClient();
 
   return (
@@ -13,8 +12,7 @@ function App() {
         <Router />
       </CalendarProvider>
     </QueryClientProvider>
-  )
-
+  );
 }
 
 export default App;

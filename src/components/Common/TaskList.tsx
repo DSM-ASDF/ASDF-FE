@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Font } from "../../styles/font";
+import { Font } from "../../styles/Font";
 import { color } from "../../styles/color";
 import { TaskDropDown } from "./TaskDropDown";
 import {
@@ -131,13 +131,13 @@ const Container = styled.div`
 const TaskListContainer = styled.div`
   display: flex;
   padding: 8px;
-`
+`;
 
 const Title = styled.p`
   width: 100px;
   ${Font.regular[16]}
   color: ${color.gray300};
-`
+`;
 
 const Select = styled.p`
   ${Font.regular[16]}

@@ -153,22 +153,22 @@ export const TaskSideBar = () => {
         }
       </CommentWrap>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   width: 530px;
   height: 100%;
   position: absolute;
   background-color: ${color.gray800};
-`
+`;
 
 const CancelSettingWrap = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
   padding: 16px;
-`
+`;
 
 const TaskWrap = styled.div`
   display: flex;
@@ -187,7 +187,7 @@ const Title = styled.input`
   &::placeholder {
     color: ${color.gray300};
   }
-`
+`;
 
 const TaskDetailWrap = styled.div`
   display: flex;
@@ -198,14 +198,14 @@ const TaskDetailWrap = styled.div`
 const ListWrap = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const TaskDescription = styled.textarea`
   border: none;
   outline: none;
   background-color: ${color.gray800};
   color: ${color.gray300};
-`
+`;
 
 const CommentWrap = styled.div`
   width: 100%;
