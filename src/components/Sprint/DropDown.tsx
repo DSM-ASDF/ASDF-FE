@@ -2,7 +2,7 @@ import { useState } from "react"
 import styled from "styled-components";
 import { Arrow } from "../../assets";
 import { color } from "../../styles/color";
-import { Font } from "../../styles/font";
+import { Font } from "../../styles/Font";
 import { MajorType, WorkAreaType, PriorityType } from "../../utils/Data/Task";
 import { useDropDownStore } from "../../stores/useDropDownStore";
 

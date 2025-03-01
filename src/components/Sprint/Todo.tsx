@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Dots } from "../../assets";
 import { Tag } from "./Tag";
 import { color } from "../../styles/color";
-import { Font } from "../../styles/font";
+import { Font } from "../../styles/Font";
 import { TodoType } from "../../utils/dummy/TaskDummy";
 import { useTaskStore } from "../../stores/useTaskStore";
 import { DeleteButton } from "../Common/DeleteButton";

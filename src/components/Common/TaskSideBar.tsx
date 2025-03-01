@@ -4,7 +4,7 @@ import { TaskList, TaskManagerList } from "./TaskList";
 import { color } from "../../styles/color";
 import { Comment } from "./Comment";
 import { ChatInput } from "./ChatInput";
-import { Font } from "../../styles/font";
+import { Font } from "../../styles/Font";
 import { useState, useEffect } from "react";
 import { useTaskStore } from "../../stores/useTaskStore";
 import { SchedulePicker } from "./SchedulePicker";
