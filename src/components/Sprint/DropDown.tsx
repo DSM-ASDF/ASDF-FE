@@ -14,15 +14,20 @@ interface PropsType {
 }
 
 export const DropDown = ({ title = "항목 선택", open = false, options = [], type }: PropsType) => {
-  const { selectedMajor, selectedWorkArea, selectedPriority, setSelectedMajor, setSelectedWorkArea, setSelectedPriority } = useDropDownStore();
+  const {
+    selectedMajor,
+    selectedWorkArea,
+    selectedPriority,
+    setSelectedMajor,
+    setSelectedWorkArea,
+    setSelectedPriority
+  } = useDropDownStore();
 
-  //const [select, setSelect] = useState<string>(title);
- 
   let selectedValue: string;
   if (type === "Major") {
     selectedValue = selectedMajor || title;
   } else if (type === "WorkArea") {
-    selectedValue = selectedWorkArea || title; 
+    selectedValue = selectedWorkArea || title;
   } else if (type === "Priority") {
     selectedValue = selectedPriority || title;
   } else {
@@ -32,7 +37,6 @@ export const DropDown = ({ title = "항목 선택", open = false, options = [], 
   const [optionOpen, setOptionOpen] = useState<boolean>(open);
 
   const handleSelect = (option: string) => {
-    //setSelect(option);
     setOptionOpen(false)
 
     if (type === "Major") {
