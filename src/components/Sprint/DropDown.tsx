@@ -93,6 +93,7 @@ const OptionWrap = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${color.gray800};
+  z-index: 1000;
 `
 
 const OptionSelect = styled.div`
